@@ -1,0 +1,65 @@
+vdetect.sh 
+
+I started working on this script to make it easier when working with a customer in identifying what CMS they were using. 
+Over time I have went from just 3 types to tripling that, and I will in the end hopefully have almost all commonly used CMS systems detectable. 
+I have also added Live Version update checking to this tool to make sure it stays upto date with out having to do any coding changes.  
+The current Live checks are for: Wordpress, Joomla, Drupal, phpBB, Magento, Zen Cart, Moodle 
+
+In the newest version I have added Self Version Checking and replacement -- will be adding self restarting in future
+ 
+#######################################################################################################
+Current Command-Line Flags for vdetect.sh:
+
+-c -- Change Log
+
+-p -- All Types scan on Plesk
+
+-s "directory to scan" -- All Types Scan of specified directory
+
+-w "directory to scan" -- Wordpress scan of specified directory
+
+-j "directory to scan" -- Joomla scan of specified directory
+
+-l "directory to scan" -- Moodle scan of specified directory
+
+-d "directory to scan" -- Drupal scan of specified directory
+
+-m "directory to scan" -- Magento scan of specified directory
+
+-b "directory to scan" -- phpBB scan of specified directory
+
+-v "directory to scan" -- vBulletin scan of specified directory
+
+-z "directory to scan" -- Zen Cart scan of specified directory
+
+-o "directory to scan" -- openCart scan of specified directory
+
+=====================================================================
+
+Examples:
+
+sh vdetect.sh -s /var/www/vhosts <---> scans all folders under /var/www/vhosts for any supported types installs and displays them
+
+sh vdetect.sh -j /home/domains/public_html <---> scans all folders under /home/domains/public_html for Joomla Installations
+
+sh vdetect.sh -b /web/html <---> scans all folders under /web/html for any phpBB installations
+
+
+
+For those that want to type less...
+
+chmod +x vdetect.sh
+
+./vdetect.sh -s /home/user/public_html <---> scan all folders under /home/user/public_html
+
+./vdetect.sh -p <---> Plesk Server Scan for supported types. Keep in mind the more domains hosted the longer this will take
+
+
+
+And for thoes even more daring....
+
+mv vdetect.sh /sbin/vdetect;chmod +x /sbin/vdetect
+
+vdetect -m /web/sites <---> Magento scan
+
+vdetect -w /var/www/vhosts/testsite/ <---> Wordpress scan
