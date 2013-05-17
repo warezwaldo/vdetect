@@ -1,5 +1,5 @@
 #!/bin/bash
-v1="2.7.6"
+v1="2.7.8"
 test1=$1
 test2=$2
 # This tool was created by Jeff "Waldo" Thompson and all bugs should be reported to 
@@ -220,16 +220,17 @@ version_check2
 echo "${txtylw}Scanning for Joomla files...${txtrst}"
 gonogo1=`find $start_dir -type f -name "configuration.php" 2> /dev/null |wc -l`
 inst=`find $start_dir -type d -name "installation" 2> /dev/null |wc -l`
-#giffer=`find -type f -name "joomla_black.gif" 2> /dev/null |wc -l`
+if [ $inst >= "1" ]; then
+echo "${txtpur}Sorry I see a Joomla installation folder moving on....${txtrst}"
+echo "${txtylw}#####################################################################${txtrst}"
+else
 if [ $gonogo1 == "0" ]; then
-#if [ $giffer == "0" ]; then
 echo "${txtpur}Sorry No Joomla websites found moving on....${txtrst}"
 echo "${txtylw}#####################################################################${txtrst}"
 
 else
 #
-dir3=`pwd`;
-echo "${txtpur}Gathering All installed Joomla Websites and Version info...${txtrst}";
+echo "${txtpur}Gathering All installed Joomla Websites and Version info...${txtrst}"
 for i in `find $start_dir -type f -name "configuration.php" 2> /dev/null `
 do
 dir4=`echo $i|sed 's/.\{18\}$//'`
@@ -257,7 +258,8 @@ fi
 
 fi
 
-#fi
+fi
+
 }
 
 function moodle_scan_mini()
@@ -415,28 +417,12 @@ dir2=`echo "$dir1/wp-includes/version.php"`
 ver123=`grep "wp_version =" $dir2|awk 'BEGIN {FS="="}; {print$2}'|cut -c3- |sed 's/.\{2\}$//'`
 
 if [ $ver123 != $ver ]; then
-	dbname=(`grep "DB_NAME" $i |awk '{print$2}'|cut -c2-|sed 's/.\{3\}$//'`)
-	dbusr=(`grep "DB_USER" $i |awk '{print$2}'|cut -c2-|sed 's/.\{3\}$//'`)
-	dbpass=(`grep "DB_PASSWORD" $i |awk '{print$2}'|cut -c2-|sed 's/.\{3\}$//'`)
-	dbpre=(`grep "table_prefix" $i |awk '{print$3}'|cut -c2-|sed 's/.\{3\}$//'`)
-	table=$dbpre\_options
-	table1=$dbpre\_users
-	table2=$dbpre\_postmeta
-	siteurl=(`mysql -u $dbusr -p"$dbpass" -o $dbname -e "select option_value from $table where option_id = 1;"|awk '{print $1}'|grep "http"`)
-	echo "${txtcyn}$siteurl${txtrst} : ${txtred}$ver123${txtrst} : ${txtred}Out of Date${txtrst}"
+	echo "${txtred}$ver123${txtrst} : ${txtred}Out of Date${txtrst}"
 	echo "Config file:${txtylw} $i${txtrst}"
 echo "#####################################################################"
 	echo ""
 else
-	dbname=(`grep "DB_NAME" $i |awk '{print$2}'|cut -c2-|sed 's/.\{4\}$//'`)
-	dbusr=(`grep "DB_USER" $i |awk '{print$2}'|cut -c2-|sed 's/.\{4\}$//'`)
-	dbpass=(`grep "DB_PASSWORD" $i |awk '{print$2}'|cut -c2-|sed 's/.\{4\}$//'`)
-	dbpre=(`grep "table_prefix" $i |awk '{print$3}'|cut -c2-|sed 's/.\{4\}$//'`)
-	table=$dbpre\_options
-	table1=$dbpre\_users
-	table2=$dbpre\_postmeta
-	siteurl=(`mysql -u $dbusr -p"$dbpass" -o $dbname -e "select option_value from $table where option_id = 1;"|awk '{print $1}'|grep "http"`)
-	echo "${txtcyn}$siteurl${txtrst} : ${txtgrn}$ver123${txtrst} : ${txtgrn}Up to Date${txtrst}"
+	echo "${txtgrn}$ver123${txtrst} : ${txtgrn}Up to Date${txtrst}"
 	echo "Config File:${txtylw} $i${txtrst}"
 echo "#####################################################################"
 	echo ""
@@ -498,6 +484,8 @@ echo "and WarezWaldo Services.  This script is provided AS IS and is"
 echo "in no way promised or guaranteed to work on every Linux Computer"
 echo "please report any bugs to waldo@warezwaldo.us"
 echo "${txtred}"
+echo "2.7.8 -- removed Site URL printout from Wordpress scan"
+echo "2.7.7 -- updated Joomla scan function to help correct a bug when installation folders are found"
 echo "2.7.6 -- modified ALL scanner functions text"
 echo "2.7.1-2.7.5 --fixing bugs with Joomla scan function"
 echo "2.7.0 -- modified the Auto-Updater text Changed for Logan (he's to literral)"
@@ -571,7 +559,6 @@ echo "##      be reported to waldo@warezwaldo.us      ##"
 #echo "##        or waldo.thompson@rackspace.com       ##"
 echo "##                                              ##"
 echo "##################################################${txtrst}"
-do_pause
 
 
 while getopts ":s:w:j:m:z:v:l:d:b:o:phc" OPTION; do
