@@ -3,7 +3,7 @@ v1="2.7.8"
 test1=$1
 test2=$2
 # This tool was created by Jeff "Waldo" Thompson and all bugs should be reported to 
-# waldo@warezwaldo.us  -- or -- waldo.thompson@rackspace.com 
+# waldo@warezwaldo.us
 # Vdetect is designed to aide in indentifying the currently installed version of software.
 # This tool will currently identify the following types of CMS software:
 # 1) Wordpress
